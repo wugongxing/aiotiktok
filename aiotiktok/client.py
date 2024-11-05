@@ -72,7 +72,16 @@ class TikTokClient:
         data = await self._make_request(HTTPMethod.OPTIONS, "aweme/v1/feed/", params=params)
 
         for aweme in data["aweme_list"]:
+            print(f'awid is {aweme["aweme_id"]}')
             if aweme["aweme_id"] == video_id:
-                return Aweme.from_dict(aweme)
-
+                aweme_list = aweme["video"]["play_addr"]["url_list"][0]
+                cover_addr = aweme["video"]["cover"]["url_list"][0]
+                return aweme_list, cover_addr
         raise VideoUnavailable(video_id)
+    
+        # for aweme in data["aweme_list"]:
+        #     print(f'awid is {aweme["aweme_id"]}')
+        #     if aweme["aweme_id"] == video_id:
+        #         return Aweme.from_dict(aweme)
+
+        # raise VideoUnavailable(video_id)
